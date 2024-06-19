@@ -1,73 +1,163 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# NestJS GraphQL Boilerplate
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+A boilerplate for building scalable, maintainable, and efficient GraphQL APIs with NestJS.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Table of Contents
 
-## Description
+- [Features](#features)
+- [Getting Started](#getting-started)
+- [Installation](#installation)
+- [Running the App](#running-the-app)
+- [Test](#test)
+- [Folder Structure](#folder-structure)
+- [Technologies Used](#technologies-used)
+- [Contributing](#contributing)
+- [License](#license)
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Features
 
-## Installation
+- **NestJS** - A progressive Node.js framework for building efficient and scalable server-side applications.
+- **GraphQL** - A query language for your API.
+- **Prisma** - Next-generation ORM that can replace traditional ORMs like TypeORM.
+- **Authentication** - Basic authentication setup with JWT.
+- **Environment Configuration** - Manage configuration for multiple environments.
 
-```bash
-$ npm install
+
+## Getting Started
+
+### Prerequisites
+
+Make sure you have the following installed on your machine:
+
+- Node.js (>= 18.x)
+- npm (>= 6.x) or yarn (>= 1.x)
+- PostgreSQL (or any other database you plan to use with Prisma)
+
+### Installation
+
+1. Clone the repository:
+
+```sh
+git clone https://github.com/GustavoGomez092/nestjs-graphql-boilerplate.git
+cd nestjs-graphql-boilerplate
 ```
 
-## Running the app
+2. Install dependencies:
 
-```bash
+```sh
+npm install
+# or
+yarn install
+```
+
+3. Environment Variables
+
+Make sure to set the following environment variables in your `.env` file:
+
+| Variable              | Description                                                      | Example Value           |
+|-----------------------|------------------------------------------------------------------|-------------------------|
+| POSTGRES_USER         | The username for your PostgreSQL database                        | prisma                  |
+| POSTGRES_PASSWORD     | The password for your PostgreSQL database                        | topsecret               |
+| POSTGRES_DB           | The name of your PostgreSQL database                             | mydb                    |
+| JWT_SECRET            | Secret key for signing JWT tokens                                | secret                  |
+| JWT_REFRESH_SECRET    | Secret key for signing JWT refresh tokens                        | refreshsecret           |
+| JWT_EXPIRATION        | Expiration time for JWT tokens                                   | 30m                     |
+| JWT_REFRESH_EXPIRATION| Expiration time for JWT refresh tokens                           | 7d                      |
+| ENV                   | Application environment (development/production)                 | development             |
+| PG_HOST               | Hostname of your PostgreSQL server                               | localhost               |
+| DATABASE_URL          | Connection URL for your PostgreSQL database (auto-generated)     | See below for details   |
+
+### Example .env File
+
+```env
+POSTGRES_USER=prisma
+POSTGRES_PASSWORD=topsecret
+POSTGRES_DB=mydb
+JWT_SECRET=secret
+JWT_REFRESH_SECRET=refreshsecret
+JWT_EXPIRATION=30m
+JWT_REFRESH_EXPIRATION=7d
+ENV=development
+PG_HOST=localhost
+
+# Auto-generate DATABASE_URL
+DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${PG_HOST}:5432/${POSTGRES_DB}?schema=public
+```
+
+### Generating Random Secrets
+For generating random secret strings, you can use the following command in your terminal:
+
+```sh
+node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+```
+Replace the values of JWT_SECRET and JWT_REFRESH_SECRET with the generated strings for enhanced security.
+
+4. Generate Prisma client:
+
+```sh
+npx prisma generate
+```
+
+### Running the App
+
+```sh
 # development
-$ npm run start
+npm run start
 
 # watch mode
-$ npm run start:dev
+npm run start:dev
 
 # production mode
-$ npm run start:prod
+npm run start:prod
 ```
 
-## Test
+## Folder Structure
 
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+```
+nestjs-graphql-boilerplate/
+├── src/
+│   ├── common/
+│   ├── decorators/
+│   ├── filters/
+│   ├── guards/
+│   ├── modules/
+│   ├── pipes/
+│   ├── resolvers/
+│   ├── services/
+│   └── main.ts
+├── test/
+│   ├── e2e/
+│   └── unit/
+├── .env.example
+├── .gitignore
+├── jest.config.js
+├── nest-cli.json
+├── package.json
+├── prisma/
+│   ├── schema.prisma
+│   ├── migrations/
+│   └── seed.ts
+└── tsconfig.json
 ```
 
-## Support
+## Technologies Used
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+- [NestJS](https://nestjs.com/)
+- [GraphQL](https://graphql.org/)
+- [Prisma](https://www.prisma.io/)
+- [PostgreSQL](https://www.postgresql.org/)
+- [JWT](https://jwt.io/)
 
-## Stay in touch
+## Contributing
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+Contributions, Please follow these steps:
+
+1. Fork the repository.
+2. Create a new branch: `git checkout -b feature/your-feature`.
+3. Make your changes and commit them: `git commit -m 'Add some feature'`.
+4. Push to the branch: `git push origin feature/your-feature`.
+5. Submit a pull request.
 
 ## License
 
-Nest is [MIT licensed](LICENSE).
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
