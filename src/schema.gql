@@ -4,6 +4,8 @@
 
 type Mutation {
   login(email: String!, password: String!): Token!
+  logout: String!
+  refreshToken(token: TokenInput!): Token!
   signUp(signupInput: SignupInput!): String!
 }
 
@@ -36,6 +38,11 @@ input SignupInput {
 }
 
 type Token {
+  refresh_token: String!
+  token: String!
+}
+
+input TokenInput {
   refresh_token: String!
   token: String!
 }
