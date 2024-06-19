@@ -1,0 +1,54 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Mutation {
+  login(email: String!, password: String!): Token!
+  signUp(signupInput: SignupInput!): String!
+}
+
+type Pagination {
+  currentPage: Float!
+  isFirstPage: Boolean!
+  isLastPage: Boolean!
+  nextPage: Float
+  pageCount: Float!
+  previousPage: Float
+  totalCount: Float!
+}
+
+type Query {
+  me: User!
+  users(limit: Float, page: Float): Users!
+}
+
+enum Role {
+  ADMIN
+  USER
+}
+
+input SignupInput {
+  confirmPassword: String!
+  email: String!
+  firstname: String!
+  lastname: String!
+  password: String!
+}
+
+type Token {
+  refresh_token: String!
+  token: String!
+}
+
+type User {
+  email: String!
+  firstname: String!
+  id: ID!
+  lastname: String
+  role: Role!
+}
+
+type Users {
+  meta: Pagination
+  users: [User]!
+}

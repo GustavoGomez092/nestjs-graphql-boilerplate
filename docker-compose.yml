@@ -1,0 +1,51 @@
+services:
+  nest-api:
+    container_name: nest-api
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - '3000:3000'
+    depends_on:
+      prisma-migrate:
+        condition: service_completed_successfully
+    env_file:
+      - .env
+
+  prisma-migrate:
+    container_name: prisma-migrate
+    build:
+      context: prisma
+    env_file:
+      - .env
+    stdin_open: true
+    tty: true
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${PG_HOST}:5432/${POSTGRES_DB}?schema=public
+    ports:
+      - '3330:3330'
+    command: ["prisma", "db", "push", "--skip-generate"]
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: postgres:14
+    container_name: db
+    restart: always
+    ports:
+      - '5432:5432'
+    env_file:
+      - .env
+    volumes:
+      - db:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d $$POSTGRES_DB -U $$POSTGRES_USER"]
+      interval: 2s
+      timeout: 3s
+      retries: 5
+
+volumes:
+  db:
+    name: db
