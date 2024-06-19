@@ -111,6 +111,63 @@ npm run start:dev
 npm run start:prod
 ```
 
+## Docker Configuration for NestJS GraphQL Boilerplate
+
+This repository includes Docker configuration to streamline the setup and deployment of the NestJS GraphQL application. Below are the details on how to utilize Docker with this project.
+
+### Prerequisites
+
+Ensure you have the following installed:
+
+- [Docker](https://docs.docker.com/get-docker/)
+- [Docker Compose](https://docs.docker.com/compose/install/)
+
+
+### Docker Compose Configuration
+
+The `docker-compose.yml` file defines the services and configurations for Docker:
+
+### Services
+
+- **nest-api**: The main application service. It builds the Docker image and installs dependencies.
+- **db**: The PostgreSQL database service. It uses the official PostgreSQL Docker image and sets up the database using the environment variables.
+- **prisma-migrate**: A container that waits on the DB service to run the migrations before the Nest app starts
+
+### Building and Running with Docker
+
+To build and run the application with Docker:
+
+1. **Build the Docker images**:
+
+    ```sh
+    docker-compose build
+    ```
+
+2. **Start the services**:
+
+    ```sh
+    docker-compose up
+    ```
+
+    This command will start both the application and the PostgreSQL database services. The application will be accessible at `http://localhost:3000`.
+
+3. **Running in Detached Mode**:
+
+    To run the Docker containers in the background, use the `-d` flag:
+
+    ```sh
+    docker-compose up -d
+    ```
+
+4. **Stopping the Services**:
+
+    To stop the running services, use:
+
+    ```sh
+    docker-compose down
+    ```
+
+
 ## Folder Structure
 
 ```
