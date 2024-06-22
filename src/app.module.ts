@@ -8,6 +8,7 @@ import { ConfigModule } from '@nestjs/config';
 import { PrismaModule } from './prisma/prisma.module';
 import { AuthModule } from './auth/auth.module';
 import Modules from './main.module';
+import { LogModule } from './log/log.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import Modules from './main.module';
     ...Modules,
     PrismaModule,
     AuthModule,
+    LogModule,
   ],
   controllers: [],
 })
